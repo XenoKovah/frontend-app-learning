@@ -9,6 +9,7 @@ import { useCourseOutlineSidebar } from '../hooks';
 import CompletionIcon from './CompletionIcon';
 import SidebarUnit from './SidebarUnit';
 import { UNIT_ICON_TYPES } from './UnitIcon';
+import { HIDE_COMPLETION_UI } from '../../../../../../hide-completion-ui';
 
 const SidebarSequence = ({
   courseId,
@@ -39,11 +40,13 @@ const SidebarSequence = ({
       <div className="col-9 d-flex flex-column flex-grow-1 ml-3 mr-auto p-0 text-left">
         <span className="align-middle text-dark-500">{title}</span>
         {specialExamInfo && <span className="align-middle small text-muted">{specialExamInfo}</span>}
+        {!HIDE_COMPLETION_UI && (
         <span className="sr-only">
           , {intl.formatMessage(complete
           ? courseOutlineMessages.completedAssignment
           : courseOutlineMessages.incompleteAssignment)}
         </span>
+        )}
       </div>
     </>
   );

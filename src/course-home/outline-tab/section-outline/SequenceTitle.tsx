@@ -7,6 +7,7 @@ import { CheckCircleOutline, CheckCircle } from '@openedx/paragon/icons';
 import EffortEstimate from '../../../shared/effort-estimate';
 import messages from '../messages';
 import { useContextId } from '../../../data/hooks';
+import { HIDE_COMPLETION_UI } from '../../../hide-completion-ui';
 
 interface Props {
   complete: boolean;
@@ -31,7 +32,7 @@ const SequenceTitle: React.FC<Props> = ({
   return (
     <div className="row w-100 m-0">
       <div className="col-auto p-0">
-        {complete ? (
+        {!HIDE_COMPLETION_UI && (complete ? (
           <Icon
             src={CheckCircle}
             className="float-left text-success mt-1"
@@ -47,13 +48,15 @@ const SequenceTitle: React.FC<Props> = ({
             svgAttrs={{ 'aria-label': intl.formatMessage(messages.incompleteAssignment) }}
             size="sm"
           />
-        )}
+        ))}
       </div>
       <div className="col-10 p-0 ml-3 text-break">
         <span className="align-middle">{displayTitle}</span>
+        {!HIDE_COMPLETION_UI && (
         <span className="sr-only">
           , {intl.formatMessage(complete ? messages.completedAssignment : messages.incompleteAssignment)}
         </span>
+        )}
         <EffortEstimate className="ml-3 align-middle" block={sequence} />
       </div>
     </div>

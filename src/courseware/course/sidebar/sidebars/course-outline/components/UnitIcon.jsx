@@ -11,6 +11,8 @@ import {
   LmsVideocamComplete as LmsVideocamCompleteIcon,
 } from '@openedx/paragon/icons';
 
+import { HIDE_COMPLETION_UI } from '../../../../../../hide-completion-ui';
+
 export const UNIT_ICON_TYPES = {
   video: 'video',
   problem: 'problem',
@@ -20,6 +22,8 @@ export const UNIT_ICON_TYPES = {
 };
 
 const UnitIcon = ({ type, isCompleted, ...props }) => {
+  // OST2: suppress completion styling/variants while completion UI is hidden from learners.
+  const completed = HIDE_COMPLETION_UI ? false : isCompleted;
   const iconMap = {
     [UNIT_ICON_TYPES.video]: {
       default: LmsVideocamIcon,
@@ -40,11 +44,11 @@ const UnitIcon = ({ type, isCompleted, ...props }) => {
   let Icon = iconMap[type || UNIT_ICON_TYPES.other];
 
   if (typeof Icon === 'object') {
-    Icon = iconMap[type || UNIT_ICON_TYPES.other]?.[isCompleted ? 'complete' : 'default'];
+    Icon = iconMap[type || UNIT_ICON_TYPES.other]?.[completed ? 'complete' : 'default'];
   }
 
   return (
-    <Icon {...props} className={classNames({ 'text-success': isCompleted, 'text-gray-300': !isCompleted })} />
+    <Icon {...props} className={classNames({ 'text-success': completed, 'text-gray-300': !completed })} />
   );
 };
 

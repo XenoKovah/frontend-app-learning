@@ -5,6 +5,7 @@ import { useIntl } from '@edx/frontend-platform/i18n';
 import messages from '../messages';
 import UnitIcon, { UNIT_ICON_TYPES } from './UnitIcon';
 import UnitLinkWrapper from './UnitLinkWrapper';
+import { HIDE_COMPLETION_UI } from '../../../../../../hide-completion-ui';
 
 const SidebarUnit = ({
   id,
@@ -42,9 +43,11 @@ const SidebarUnit = ({
           <span className="align-middle">
             {title}
           </span>
+          {!HIDE_COMPLETION_UI && (
           <span className="sr-only">
             , {intl.formatMessage(complete ? messages.completedUnit : messages.incompleteUnit)}
           </span>
+          )}
         </div>
       </UnitLinkWrapper>
     </li>

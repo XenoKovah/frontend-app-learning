@@ -7,6 +7,7 @@ import { ChevronRight as ChevronRightIcon } from '@openedx/paragon/icons';
 import courseOutlineMessages from '@src/course-home/outline-tab/messages';
 import CompletionIcon from './CompletionIcon';
 import { useCourseOutlineSidebar } from '../hooks';
+import { HIDE_COMPLETION_UI } from '../../../../../../hide-completion-ui';
 
 const SidebarSection = ({ section, handleSelectSection }) => {
   const intl = useIntl();
@@ -28,11 +29,13 @@ const SidebarSection = ({ section, handleSelectSection }) => {
       </div>
       <div className="col-10 ml-3 p-0 flex-grow-1 text-dark-500 text-left text-break">
         {title}
+        {!HIDE_COMPLETION_UI && (
         <span className="sr-only">
           , {intl.formatMessage(complete
           ? courseOutlineMessages.completedSection
           : courseOutlineMessages.incompleteSection)}
         </span>
+        )}
       </div>
     </>
   );

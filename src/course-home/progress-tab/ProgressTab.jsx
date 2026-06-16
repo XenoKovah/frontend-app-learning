@@ -11,6 +11,7 @@ import ProgressTabCourseGradeSlot from '../../plugin-slots/ProgressTabCourseGrad
 import ProgressTabGradeBreakdownSlot from '../../plugin-slots/ProgressTabGradeBreakdownSlot';
 import ProgressTabRelatedLinksSlot from '../../plugin-slots/ProgressTabRelatedLinksSlot';
 import { useModel } from '../../generic/model-store';
+import { HIDE_COMPLETION_UI } from '../../hide-completion-ui';
 
 const ProgressTab = () => {
   const courseId = useContextId();
@@ -30,7 +31,7 @@ const ProgressTab = () => {
       <div className="row w-100 m-0">
         {/* Main body */}
         <div className="col-12 col-md-8 p-0">
-          {!disableProgressGraph && <CourseCompletion />}
+          {!HIDE_COMPLETION_UI && !disableProgressGraph && <CourseCompletion />}
           <ProgressTabCertificateStatusMainBodySlot />
           <ProgressTabCourseGradeSlot />
           <ProgressTabGradeBreakdownSlot />

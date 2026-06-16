@@ -4,6 +4,7 @@ import { Icon } from '@openedx/paragon';
 import { CheckCircle, CheckCircleOutline, DisabledVisible } from '@openedx/paragon/icons';
 
 import messages from '../messages';
+import { HIDE_COMPLETION_UI } from '../../../hide-completion-ui';
 
 interface Props {
   complete: boolean;
@@ -16,7 +17,7 @@ const SectionTitle: React.FC<Props> = ({ complete, hideFromTOC, title }) => {
   return (
     <div className="d-flex row w-100 m-0">
       <div className="col-auto p-0">
-        {complete ? (
+        {!HIDE_COMPLETION_UI && (complete ? (
           <Icon
             src={CheckCircle}
             className="float-left mt-1 text-success"
@@ -32,13 +33,15 @@ const SectionTitle: React.FC<Props> = ({ complete, hideFromTOC, title }) => {
             svgAttrs={{ 'aria-label': intl.formatMessage(messages.incompleteSection) }}
             size="sm"
           />
-        )}
+        ))}
       </div>
       <div className="col-7 ml-3 p-0 font-weight-bold text-dark-500">
         <span className="align-middle col-6">{title}</span>
+        {!HIDE_COMPLETION_UI && (
         <span className="sr-only">
           , {intl.formatMessage(complete ? messages.completedSection : messages.incompleteSection)}
         </span>
+        )}
       </div>
       {hideFromTOC && (
       <div className="row">

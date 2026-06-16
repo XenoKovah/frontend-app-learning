@@ -8,6 +8,7 @@ import { Bookmark } from '@openedx/paragon/icons';
 
 import UnitIcon from './UnitIcon';
 import CompleteIcon from './CompleteIcon';
+import { HIDE_COMPLETION_UI } from '../../../../hide-completion-ui';
 
 const UnitButton = ({
   onClick,
@@ -34,7 +35,7 @@ const UnitButton = ({
     <Button
       className={classNames({
         active: isActive,
-        complete: showCompletion && complete,
+        complete: !HIDE_COMPLETION_UI && showCompletion && complete,
       }, className)}
       variant="link"
       onClick={handleClick}
@@ -44,7 +45,7 @@ const UnitButton = ({
     >
       <UnitIcon type={contentType} />
       {showTitle && <span className="unit-title">{title}</span>}
-      {showCompletion && complete ? <CompleteIcon size="sm" className="text-success ml-2" /> : null}
+      {!HIDE_COMPLETION_UI && showCompletion && complete ? <CompleteIcon size="sm" className="text-success ml-2" /> : null}
       {bookmarked ? (
         <Icon
           data-testid="bookmark-icon"
