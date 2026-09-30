@@ -16,6 +16,8 @@ import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import certMessages from './messages';
 import certStatusMessages from '../../../progress-tab/certificate-status/messages';
 import { requestCert } from '../../../data/thunks';
+import useMissingTimingFeedback from '../../../timing-feedback/hooks';
+import TimingFeedbackLinks, { TimingFeedbackNudgeText } from '../../../timing-feedback/TimingFeedbackLinks';
 
 export const CERT_STATUS_TYPE = {
   EARNED_NOT_AVAILABLE: 'earned_but_not_available',
@@ -38,6 +40,8 @@ const CertificateStatusAlert = ({ payload }) => {
     notPassingCourseEnded,
     tabs,
   } = payload;
+
+  const missingTimingFeedback = useMissingTimingFeedback(courseId, certStatus === CERT_STATUS_TYPE.DOWNLOADABLE);
 
   // eslint-disable-next-line react/prop-types
   const AlertWrapper = (props) => props.children(props);
@@ -169,6 +173,13 @@ const CertificateStatusAlert = ({ payload }) => {
               <FontAwesomeIcon icon={icon} className={iconClassName} />
               <Alert.Heading>{header}</Alert.Heading>
               {body}
+              {missingTimingFeedback.length > 0 && (
+                <p className="small mb-0" data-testid="timing-feedback-nudge">
+                  <TimingFeedbackNudgeText />
+                  {' '}
+                  <TimingFeedbackLinks missing={missingTimingFeedback} />
+                </p>
+              )}
             </div>
             {buttonVisible && (
               <div className="flex-grow-0 pt-3 pt-lg-0">

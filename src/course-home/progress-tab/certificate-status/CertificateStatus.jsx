@@ -12,6 +12,8 @@ import { COURSE_EXIT_MODES, getCourseExitMode } from '../../../courseware/course
 import { DashboardLink, IdVerificationSupportLink, ProfileLink } from '../../../shared/links';
 import { requestCert } from '../../data/thunks';
 import messages from './messages';
+import getMissingTimingFeedback from '../../timing-feedback/utils';
+import TimingFeedbackLinks, { TimingFeedbackNudgeText } from '../../timing-feedback/TimingFeedbackLinks';
 import ProgressCertificateStatusSlot from '../../../plugin-slots/ProgressCertificateStatusSlot';
 
 const CertificateStatus = () => {
@@ -31,6 +33,7 @@ const CertificateStatus = () => {
 
   const {
     certificateData,
+    sectionScores,
     end,
     enrollmentMode,
     gradingPolicy: {
@@ -219,6 +222,7 @@ const CertificateStatus = () => {
   }
 
   const header = intl.formatMessage(messages[`${certCase}Header`]);
+  const missingTimingFeedback = certCase === 'downloadable' ? getMissingTimingFeedback(sectionScores) : [];
 
   const logCertificateStatusButtonClicked = () => {
     sendTrackEvent('edx.ui.lms.course_progress.certificate_status.clicked', {
@@ -262,6 +266,15 @@ const CertificateStatus = () => {
                 </Button>
               )}
             </Card.Footer>
+            {missingTimingFeedback.length > 0 && (
+              <Card.Section className="small text-gray-700" data-testid="timing-feedback-nudge">
+                <div className="border rounded p-3">
+                  <TimingFeedbackNudgeText />
+                  {' '}
+                  <TimingFeedbackLinks missing={missingTimingFeedback} />
+                </div>
+              </Card.Section>
+            )}
           </div>
         </ProgressCertificateStatusSlot>
       </Card>
