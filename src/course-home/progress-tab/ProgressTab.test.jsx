@@ -124,6 +124,18 @@ describe('Progress Tab', () => {
     });
   });
 
+  describe('Header mascot', () => {
+    it('renders the detective mascot between the header and the grades', async () => {
+      await fetchAndRender();
+      const mascot = screen.getByTestId('progress-detective-mascot');
+      const heading = screen.getByRole('heading', { name: 'Your progress' });
+      const grades = screen.getByText('Grades');
+      const follows = (a, b) => Boolean(a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING); // eslint-disable-line no-bitwise
+      expect(follows(heading, mascot)).toBe(true);
+      expect(follows(mascot, grades)).toBe(true);
+    });
+  });
+
   describe('Course Grade', () => {
     it('renders Course Grade', async () => {
       await fetchAndRender();

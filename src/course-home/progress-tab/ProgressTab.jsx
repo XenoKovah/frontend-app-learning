@@ -5,6 +5,7 @@ import ProgressTabCertificateStatusSidePanelSlot from '../../plugin-slots/Progre
 
 import CourseCompletion from './course-completion/CourseCompletion';
 import ProgressHeader from './ProgressHeader';
+import progressDetective from './assets/progress-detective.png';
 
 import ProgressTabCertificateStatusMainBodySlot from '../../plugin-slots/ProgressTabCertificateStatusMainBodySlot';
 import ProgressTabCourseGradeSlot from '../../plugin-slots/ProgressTabCourseGradeSlot';
@@ -27,6 +28,14 @@ const ProgressTab = () => {
   return (
     <>
       <ProgressHeader />
+      <div className="d-flex justify-content-center mb-4">
+        <img
+          src={progressDetective}
+          alt=""
+          data-testid="progress-detective-mascot"
+          style={{ maxHeight: '14rem', width: 'auto', maxWidth: '100%' }}
+        />
+      </div>
       <div className="row w-100 m-0">
         {/* Main body */}
         <div className="col-12 col-md-8 p-0">
