@@ -8,7 +8,18 @@ const tf = (name, problemEarned, url = `/u/${name}`) => ({
   problemScores: [{ earned: problemEarned, possible: 2 }, { earned: 1, possible: 1 }],
 });
 
+const tfAttempted = (name, attempted) => ({
+  ...tf(name, 0),
+  numPointsEarned: 1,
+  problemScores: [{ earned: 0, possible: 2, attempted }, { earned: 1, possible: 1, attempted: true }],
+});
+
 describe('getMissingTimingFeedback', () => {
+  it('uses the attempted flag, so a submission scoring 0 counts as submitted', () => {
+    const sections = [{ subsections: [tfAttempted('01', true), tfAttempted('02', false), tfAttempted('03', false)] }];
+    expect(getMissingTimingFeedback(sections).map(m => m.label)).toEqual(['2', '3']);
+  });
+
   it('lists unsubmitted entries when some but not all are submitted', () => {
     const sections = [{ subsections: [tf('01', 1), tf('02', 0), tf('03', 2), tf('04', 0)] }];
     expect(getMissingTimingFeedback(sections).map(m => m.label)).toEqual(['2', '4']);
