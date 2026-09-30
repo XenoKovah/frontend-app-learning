@@ -17,7 +17,7 @@ import certMessages from './messages';
 import certStatusMessages from '../../../progress-tab/certificate-status/messages';
 import { requestCert } from '../../../data/thunks';
 import useMissingTimingFeedback from '../../../timing-feedback/hooks';
-import TimingFeedbackLinks, { TimingFeedbackNudgeText } from '../../../timing-feedback/TimingFeedbackLinks';
+import { TimingFeedbackNudge } from '../../../timing-feedback/TimingFeedbackLinks';
 
 export const CERT_STATUS_TYPE = {
   EARNED_NOT_AVAILABLE: 'earned_but_not_available',
@@ -174,11 +174,9 @@ const CertificateStatusAlert = ({ payload }) => {
               <Alert.Heading>{header}</Alert.Heading>
               {body}
               {missingTimingFeedback.length > 0 && (
-                <p className="small mb-0" data-testid="timing-feedback-nudge">
-                  <TimingFeedbackNudgeText />
-                  {' '}
-                  <TimingFeedbackLinks missing={missingTimingFeedback} />
-                </p>
+                <div className="small mt-2" data-testid="timing-feedback-nudge">
+                  <TimingFeedbackNudge missing={missingTimingFeedback} mascotWidth={72} />
+                </div>
               )}
             </div>
             {buttonVisible && (

@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage } from '@edx/frontend-platform/i18n';
+import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
+
+import lilStranger from './assets/lil-stranger.png';
 
 export const TimingFeedbackNudgeText = () => (
   <FormattedMessage
@@ -32,6 +34,37 @@ TimingFeedbackLinks.propTypes = {
     title: PropTypes.string,
     url: PropTypes.string,
   })).isRequired,
+};
+
+// Mascot floated left so the text wraps around it when the column is narrow.
+export const TimingFeedbackNudge = ({ missing, mascotWidth }) => {
+  const intl = useIntl();
+  return (
+    <div className="clearfix">
+      <img
+        src={lilStranger}
+        alt={intl.formatMessage({
+          id: 'learning.timingFeedback.mascotAlt',
+          defaultMessage: 'Li\'l Stranger whispering to you...',
+          description: 'Alt text for the Li\'l Stranger mascot image next to the Timing Feedback nudge',
+        })}
+        className="float-left mr-3 mb-1"
+        style={{ width: mascotWidth, height: 'auto' }}
+      />
+      <TimingFeedbackNudgeText />
+      {' '}
+      <TimingFeedbackLinks missing={missing} />
+    </div>
+  );
+};
+
+TimingFeedbackNudge.propTypes = {
+  ...TimingFeedbackLinks.propTypes,
+  mascotWidth: PropTypes.number,
+};
+
+TimingFeedbackNudge.defaultProps = {
+  mascotWidth: 72,
 };
 
 export default TimingFeedbackLinks;

@@ -13,7 +13,7 @@ import { DashboardLink, IdVerificationSupportLink, ProfileLink } from '../../../
 import { requestCert } from '../../data/thunks';
 import messages from './messages';
 import getMissingTimingFeedback from '../../timing-feedback/utils';
-import TimingFeedbackLinks, { TimingFeedbackNudgeText } from '../../timing-feedback/TimingFeedbackLinks';
+import { TimingFeedbackNudge } from '../../timing-feedback/TimingFeedbackLinks';
 import ProgressCertificateStatusSlot from '../../../plugin-slots/ProgressCertificateStatusSlot';
 
 const CertificateStatus = () => {
@@ -269,9 +269,7 @@ const CertificateStatus = () => {
             {missingTimingFeedback.length > 0 && (
               <Card.Section className="small text-gray-700" data-testid="timing-feedback-nudge">
                 <div className="border rounded p-3">
-                  <TimingFeedbackNudgeText />
-                  {' '}
-                  <TimingFeedbackLinks missing={missingTimingFeedback} />
+                  <TimingFeedbackNudge missing={missingTimingFeedback} mascotWidth={64} />
                 </div>
               </Card.Section>
             )}
