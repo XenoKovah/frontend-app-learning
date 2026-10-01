@@ -939,6 +939,32 @@ describe('Progress Tab', () => {
       expect(screen.getAllByText('0/1')).toHaveLength(3);
     });
 
+    it('lists Timing Feedback as 0/1 or 1/1 even though correctness is hidden', async () => {
+      const tf = (name, attempted) => ({
+        assignment_type: 'Timing Feedback',
+        block_key: `block-v1:edX+DemoX+Demo_Course+type@sequential+block@${name}`,
+        display_name: `Timing Feedback ${name}`,
+        learner_has_access: true,
+        has_graded_assignment: true,
+        num_points_earned: 0,
+        num_points_possible: 2,
+        percent_graded: 0.0,
+        problem_scores: [{ earned: 0, possible: 2, attempted }],
+        show_correctness: 'never',
+        show_grades: false,
+        url: `http://learning.edx.org/course/${name}`,
+      });
+      setTabData({
+        section_scores: [{ display_name: 'TF section', subsections: [tf('01', true), tf('02', false)] }],
+      });
+      await fetchAndRender();
+      expect(screen.getByRole('link', { name: 'Timing Feedback 01' })).toBeInTheDocument();
+      expect(screen.getByRole('link', { name: 'Timing Feedback 02' })).toBeInTheDocument();
+      expect(screen.getByText('1/1')).toBeInTheDocument();
+      expect(screen.getByText('0/1')).toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /Toggle individual problem scores for Timing Feedback/ })).toBeNull();
+    });
+
     it('render message when section scores are not populated', async () => {
       setTabData({
         section_scores: [],

@@ -9,13 +9,15 @@
 
 const TIMING_FEEDBACK = 'timing feedback';
 
-const isTimingFeedback = (subsection) => (
+export const isTimingFeedback = (subsection) => (
   (subsection.assignmentType || '').trim().toLowerCase() === TIMING_FEEDBACK
 );
 
-const isSubmitted = (subsection) => {
+export const isSubmitted = (subsection) => {
   const scores = subsection.problemScores || [];
-  const problems = scores.filter(score => score.possible > 1);
+  // Older sections also hold a 1-point "done" block; skip it when a bigger problem is present.
+  const bigger = scores.filter(score => score.possible > 1);
+  const problems = bigger.length > 0 ? bigger : scores;
   if (problems.length === 0) {
     return (subsection.numPointsEarned || 0) > 0;
   }

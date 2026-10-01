@@ -6,6 +6,7 @@ import { useModel } from '../../../../generic/model-store';
 import messages from '../messages';
 import SubsectionTitleCell from './SubsectionTitleCell';
 import { showUngradedAssignments } from '../../utils';
+import { isSubmitted, isTimingFeedback } from '../../../timing-feedback/utils';
 
 const DetailedGradesTable = () => {
   const intl = useIntl();
@@ -19,7 +20,9 @@ const DetailedGradesTable = () => {
   return (
     sectionScores.map((chapter) => {
       const subsectionScores = chapter.subsections.filter(
-        (subsection) => !!(
+        // OST2: Timing Feedback is set to never show correctness, so it would be filtered out here.
+        // Always list it, scored 1/1 once submitted and 0/1 otherwise.
+        (subsection) => isTimingFeedback(subsection) || !!(
           (showUngradedAssignments() || subsection.hasGradedAssignment)
             && subsection.showGrades
             && (subsection.numPointsPossible > 0 || subsection.numPointsEarned > 0)
@@ -30,10 +33,15 @@ const DetailedGradesTable = () => {
         return null;
       }
 
-      const detailedGradesData = subsectionScores.map((subsection) => ({
-        subsectionTitle: <SubsectionTitleCell subsection={subsection} />,
-        score: <span className={subsection.learnerHasAccess ? '' : 'greyed-out'}>{subsection.numPointsEarned}{isLocaleRtl ? '\\' : '/'}{subsection.numPointsPossible}</span>,
-      }));
+      const detailedGradesData = subsectionScores.map((subsection) => {
+        const timingFeedback = isTimingFeedback(subsection);
+        const earned = timingFeedback ? Number(isSubmitted(subsection)) : subsection.numPointsEarned;
+        const possible = timingFeedback ? 1 : subsection.numPointsPossible;
+        return {
+          subsectionTitle: <SubsectionTitleCell subsection={subsection} hideProblemScores={timingFeedback} />,
+          score: <span className={subsection.learnerHasAccess ? '' : 'greyed-out'}>{earned}{isLocaleRtl ? '\\' : '/'}{possible}</span>,
+        };
+      });
 
       return (
         <div className="my-3" key={`${chapter.displayName}-grades-table`}>

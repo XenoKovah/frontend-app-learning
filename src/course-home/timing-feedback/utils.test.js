@@ -15,6 +15,17 @@ const tfAttempted = (name, attempted) => ({
 });
 
 describe('getMissingTimingFeedback', () => {
+  it('works once the 1-point done block is removed and the problem is the only score', () => {
+    const only = (name, attempted) => ({
+      assignmentType: 'Timing Feedback',
+      displayName: `Timing Feedback ${name} - X`,
+      numPointsEarned: 0,
+      problemScores: [{ earned: 0, possible: 1, attempted }],
+    });
+    const sections = [{ subsections: [only('01', true), only('02', false)] }];
+    expect(getMissingTimingFeedback(sections).map(m => m.label)).toEqual(['2']);
+  });
+
   it('uses the attempted flag, so a submission scoring 0 counts as submitted', () => {
     const sections = [{ subsections: [tfAttempted('01', true), tfAttempted('02', false), tfAttempted('03', false)] }];
     expect(getMissingTimingFeedback(sections).map(m => m.label)).toEqual(['2', '3']);

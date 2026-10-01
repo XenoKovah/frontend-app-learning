@@ -16,7 +16,7 @@ import messages from '../messages';
 import { useModel } from '../../../../generic/model-store';
 import ProblemScoreDrawer from './ProblemScoreDrawer';
 
-const SubsectionTitleCell = ({ subsection }) => {
+const SubsectionTitleCell = ({ subsection, hideProblemScores }) => {
   const intl = useIntl();
   const courseId = useContextId();
   const {
@@ -42,6 +42,19 @@ const SubsectionTitleCell = ({ subsection }) => {
       assignment_block_key: blockKey,
     });
   };
+
+  // OST2: Timing Feedback has no meaningful per-problem score, so show just the link, no drawer.
+  if (hideProblemScores) {
+    return (
+      <span className="small d-inline ml-4 pl-1">
+        {url ? (
+          <a href={url} className="muted-link small" onClick={logSubsectionClicked}>{displayName}</a>
+        ) : (
+          <span className="greyed-out small">{displayName}</span>
+        )}
+      </span>
+    );
+  }
 
   return (
     <Collapsible.Advanced>
@@ -117,6 +130,11 @@ SubsectionTitleCell.propTypes = {
     })).isRequired,
     url: PropTypes.string,
   }).isRequired,
+  hideProblemScores: PropTypes.bool,
+};
+
+SubsectionTitleCell.defaultProps = {
+  hideProblemScores: false,
 };
 
 export default SubsectionTitleCell;
