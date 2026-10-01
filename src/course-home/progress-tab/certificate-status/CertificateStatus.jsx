@@ -13,6 +13,7 @@ import { DashboardLink, IdVerificationSupportLink, ProfileLink } from '../../../
 import { requestCert } from '../../data/thunks';
 import messages from './messages';
 import getMissingTimingFeedback from '../../timing-feedback/utils';
+import CertificateMascot from '../../lil-stranger/CertificateMascot';
 import { TimingFeedbackNudge } from '../../timing-feedback/TimingFeedbackLinks';
 import ProgressCertificateStatusSlot from '../../../plugin-slots/ProgressCertificateStatusSlot';
 
@@ -247,7 +248,14 @@ const CertificateStatus = () => {
       <Card className="bg-light-200 raised-card">
         <ProgressCertificateStatusSlot courseId={courseId}>
           <div id={`${certCase}_certificate_status`}>
-            <Card.Header title={header} />
+            <Card.Header
+              title={certCase === 'downloadable' ? (
+                <span className="d-inline-block">
+                  <CertificateMascot widthPercent={100} />
+                  {header}
+                </span>
+              ) : header}
+            />
             <Card.Section className="small text-gray-700">
               {body}
             </Card.Section>

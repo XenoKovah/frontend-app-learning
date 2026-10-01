@@ -1130,6 +1130,20 @@ describe('Progress Tab', () => {
         expect(screen.getByRole('link', { name: 'View my certificate' })).toBeInTheDocument();
       });
 
+      it('shows the thumbs-up mascot above the downloadable certificate header, linked to the hello page', async () => {
+        setTabData({
+          certificate_data: {
+            cert_status: 'downloadable',
+            cert_web_view_url: '/certificates/cooluuidgoeshere',
+          },
+          user_has_passing_grade: true,
+        });
+        await fetchAndRender();
+        const mascot = screen.getByTestId('certificate-mascot');
+        expect(mascot.closest('a')).toHaveAttribute('href', 'http://localhost:18000/lil-stranger/');
+        expect(mascot.parentElement.parentElement).toHaveTextContent('Your certificate is available!');
+      });
+
       it('sends events on view of progress tab and on click of view certificate link', async () => {
         setTabData({
           certificate_data: {

@@ -16,6 +16,7 @@ import { getAuthenticatedUser } from '@edx/frontend-platform/auth';
 import certMessages from './messages';
 import certStatusMessages from '../../../progress-tab/certificate-status/messages';
 import { requestCert } from '../../../data/thunks';
+import CertificateMascot from '../../../lil-stranger/CertificateMascot';
 import useMissingTimingFeedback from '../../../timing-feedback/hooks';
 import { TimingFeedbackNudge } from '../../../timing-feedback/TimingFeedbackLinks';
 
@@ -137,6 +138,8 @@ const CertificateStatusAlert = ({ payload }) => {
     return alertProps;
   };
 
+  const certReady = certStatus === CERT_STATUS_TYPE.DOWNLOADABLE || certStatus === CERT_STATUS_TYPE.REQUESTING;
+
   let alertProps = {};
   switch (certStatus) {
     case CERT_STATUS_TYPE.EARNED_NOT_AVAILABLE:
@@ -170,8 +173,19 @@ const CertificateStatusAlert = ({ payload }) => {
         <Alert variant={variant}>
           <div className="d-flex flex-column flex-lg-row justify-content-between align-items-center">
             <div className={buttonVisible ? 'col-lg-8' : 'col-auto'}>
-              <FontAwesomeIcon icon={icon} className={iconClassName} />
-              <Alert.Heading>{header}</Alert.Heading>
+              {certReady ? (
+                <div className="text-center" data-testid="certificate-ready-heading">
+                  <div className="d-inline-block">
+                    <CertificateMascot widthPercent={50} centered />
+                    <Alert.Heading>{header}</Alert.Heading>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <FontAwesomeIcon icon={icon} className={iconClassName} />
+                  <Alert.Heading>{header}</Alert.Heading>
+                </>
+              )}
               {body}
               {missingTimingFeedback.length > 0 && (
                 <div className="small mt-2" data-testid="timing-feedback-nudge">
