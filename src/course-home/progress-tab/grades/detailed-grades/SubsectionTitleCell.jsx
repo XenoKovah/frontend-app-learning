@@ -127,6 +127,7 @@ SubsectionTitleCell.propTypes = {
     problemScores: PropTypes.arrayOf(PropTypes.shape({
       earned: PropTypes.number.isRequired,
       possible: PropTypes.number.isRequired,
+      url: PropTypes.string,
     })).isRequired,
     url: PropTypes.string,
   }).isRequired,

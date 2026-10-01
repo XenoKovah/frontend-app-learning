@@ -9,6 +9,8 @@ const ProblemScoreDrawer = ({ problemScores, subsection }) => {
   const intl = useIntl();
   const isLocaleRtl = isRtl(getLocale());
 
+  const scoreText = (problemScore) => `${problemScore.earned}${isLocaleRtl ? '\\' : '/'}${problemScore.possible}`;
+
   const scoreLabel = subsection.hasGradedAssignment ? messages.gradedScoreLabel : messages.practiceScoreLabel;
 
   return (
@@ -18,7 +20,11 @@ const ProblemScoreDrawer = ({ problemScores, subsection }) => {
         <ul className="list-unstyled row w-100 m-0" aria-labelledby="problem-score-label">
           {problemScores.map((problemScore, i) => (
             // eslint-disable-next-line react/no-array-index-key
-            <li key={i} className="ml-3">{problemScore.earned}{isLocaleRtl ? '\\' : '/'}{problemScore.possible}</li>
+            <li key={i} className="ml-3">
+              {problemScore.url ? (
+                <a href={problemScore.url} className="muted-link">{scoreText(problemScore)}</a>
+              ) : scoreText(problemScore)}
+            </li>
           ))}
         </ul>
       </div>
@@ -30,6 +36,7 @@ ProblemScoreDrawer.propTypes = {
   problemScores: PropTypes.arrayOf(PropTypes.shape({
     earned: PropTypes.number.isRequired,
     possible: PropTypes.number.isRequired,
+    url: PropTypes.string,
   })).isRequired,
   subsection: PropTypes.shape({
     learnerHasAccess: PropTypes.bool,

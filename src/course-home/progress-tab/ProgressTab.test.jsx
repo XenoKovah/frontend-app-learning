@@ -939,6 +939,35 @@ describe('Progress Tab', () => {
       expect(screen.getAllByText('0/1')).toHaveLength(3);
     });
 
+    it('links each problem score to its problem when the API provides a url', async () => {
+      setTabData({
+        section_scores: [{
+          display_name: 'Section',
+          subsections: [{
+            assignment_type: 'Homework',
+            block_key: 'block-v1:edX+DemoX+Demo_Course+type@sequential+block@abc',
+            display_name: 'Linked subsection',
+            learner_has_access: true,
+            has_graded_assignment: true,
+            num_points_earned: 0,
+            num_points_possible: 2,
+            percent_graded: 0.0,
+            problem_scores: [
+              { earned: 0, possible: 1, url: 'http://lms/jump_to/p1' },
+              { earned: 1, possible: 1, url: 'http://lms/jump_to/p2' },
+            ],
+            show_correctness: 'always',
+            show_grades: true,
+            url: 'http://lms/jump_to/seq',
+          }],
+        }],
+      });
+      await fetchAndRender();
+      fireEvent.click(screen.getByRole('button', { name: 'Toggle individual problem scores for Linked subsection' }));
+      expect(screen.getByRole('link', { name: '0/1' })).toHaveAttribute('href', 'http://lms/jump_to/p1');
+      expect(screen.getByRole('link', { name: '1/1' })).toHaveAttribute('href', 'http://lms/jump_to/p2');
+    });
+
     it('lists Timing Feedback as 0/1 or 1/1 even though correctness is hidden', async () => {
       const tf = (name, attempted) => ({
         assignment_type: 'Timing Feedback',
