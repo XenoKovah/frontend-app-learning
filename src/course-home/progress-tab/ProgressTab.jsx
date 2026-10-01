@@ -1,4 +1,5 @@
 import React from 'react';
+import { getConfig } from '@edx/frontend-platform';
 import { useWindowSize } from '@openedx/paragon';
 import { useContextId } from '../../data/hooks';
 import ProgressTabCertificateStatusSidePanelSlot from '../../plugin-slots/ProgressTabCertificateStatusSidePanelSlot';
@@ -29,12 +30,14 @@ const ProgressTab = () => {
     <>
       <ProgressHeader />
       <div className="d-flex justify-content-start mb-4">
-        <img
-          src={progressDetective}
-          alt=""
-          data-testid="progress-detective-mascot"
-          style={{ maxHeight: '14rem', width: 'auto', maxWidth: '100%' }}
-        />
+        <a href={`${getConfig().LMS_BASE_URL}/lil-stranger/`} data-testid="lil-stranger-link" aria-label="Say hello to Li'l Stranger">
+          <img
+            src={progressDetective}
+            alt=""
+            data-testid="progress-detective-mascot"
+            style={{ maxHeight: '14rem', width: 'auto', maxWidth: '100%' }}
+          />
+        </a>
       </div>
       <div className="row w-100 m-0">
         {/* Main body */}

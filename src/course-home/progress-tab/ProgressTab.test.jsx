@@ -134,6 +134,12 @@ describe('Progress Tab', () => {
       expect(follows(heading, mascot)).toBe(true);
       expect(follows(mascot, grades)).toBe(true);
     });
+
+    it('links the mascot to the Li\'l Stranger page on the LMS', async () => {
+      await fetchAndRender();
+      expect(screen.getByTestId('progress-detective-mascot').closest('a'))
+        .toHaveAttribute('href', 'http://localhost:18000/lil-stranger/');
+    });
   });
 
   describe('Course Grade', () => {
@@ -331,7 +337,7 @@ describe('Progress Tab', () => {
       await fetchAndRender();
       expect(screen.getByText('locked feature')).toBeInTheDocument();
       expect(screen.getByText('Unlock to view grades and work towards a certificate.')).toBeInTheDocument();
-      expect(screen.getAllByRole('link', 'Unlock now')).toHaveLength(3);
+      expect(screen.getAllByRole('link', 'Unlock now')).toHaveLength(4);
     });
 
     it('sends events on click of upgrade button in locked content header (CourseGradeHeader)', async () => {
@@ -375,7 +381,7 @@ describe('Progress Tab', () => {
       expect(screen.getByText('locked feature')).toBeInTheDocument();
       expect(screen.getByText('Unlock to view grades and work towards a certificate.')).toBeInTheDocument();
 
-      const upgradeButton = screen.getAllByRole('link', 'Unlock now')[0];
+      const upgradeButton = screen.getByRole('link', { name: 'Upgrade now' });
       fireEvent.click(upgradeButton);
 
       expect(sendTrackEvent).toHaveBeenCalledTimes(2);

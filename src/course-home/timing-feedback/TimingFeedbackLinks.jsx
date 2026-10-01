@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { getConfig } from '@edx/frontend-platform';
 import { FormattedMessage, useIntl } from '@edx/frontend-platform/i18n';
 
 import lilStranger from './assets/lil-stranger.png';
@@ -41,16 +42,17 @@ export const TimingFeedbackNudge = ({ missing, mascotWidth }) => {
   const intl = useIntl();
   return (
     <div className="clearfix">
-      <img
-        src={lilStranger}
-        alt={intl.formatMessage({
-          id: 'learning.timingFeedback.mascotAlt',
-          defaultMessage: 'Li\'l Stranger whispering to you...',
-          description: 'Alt text for the Li\'l Stranger mascot image next to the Timing Feedback nudge',
-        })}
-        className="float-left mr-3 mb-1"
-        style={{ width: mascotWidth, height: 'auto' }}
-      />
+      <a href={`${getConfig().LMS_BASE_URL}/lil-stranger/`} className="float-left mr-3 mb-1" data-testid="lil-stranger-link">
+        <img
+          src={lilStranger}
+          alt={intl.formatMessage({
+            id: 'learning.timingFeedback.mascotAlt',
+            defaultMessage: 'Li\'l Stranger whispering to you...',
+            description: 'Alt text for the Li\'l Stranger mascot image next to the Timing Feedback nudge',
+          })}
+          style={{ width: mascotWidth, height: 'auto', display: 'block' }}
+        />
+      </a>
       <TimingFeedbackNudgeText />
       {' '}
       <TimingFeedbackLinks missing={missing} />
