@@ -35,7 +35,15 @@ const ProgressTab = () => {
             src={progressDetective}
             alt=""
             data-testid="progress-detective-mascot"
-            style={{ maxHeight: '14rem', width: 'auto', maxWidth: '100%' }}
+            width={377}
+            height={480}
+            style={{
+              height: '14rem', width: 'auto', maxWidth: '100%', objectFit: 'contain',
+            }}
+            // The grade-bar markers are Popper popovers positioned on mount. Reserve the image's
+            // height up front (above) and re-run positioning once it loads, so they never end up
+            // floating above the bar.
+            onLoad={() => window.dispatchEvent(new Event('resize'))}
           />
         </a>
       </div>
