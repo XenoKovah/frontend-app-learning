@@ -22,7 +22,7 @@ const TimingFeedbackLinks = ({ missing }) => (
     {' '}
     {missing.map((entry, i) => (
       <span key={entry.label}>
-        {entry.url ? <a href={entry.url} title={entry.title}>{entry.label}</a> : entry.label}
+        {entry.url ? <a className="inline-link" href={entry.url} title={entry.title}>{entry.label}</a> : entry.label}
         {i < missing.length - 1 ? ', ' : ''}
       </span>
     ))}
@@ -42,7 +42,7 @@ export const TimingFeedbackNudge = ({ missing, mascotWidth }) => {
   const intl = useIntl();
   return (
     <div className="clearfix">
-      <a href={`${getConfig().LMS_BASE_URL}/lil-stranger/`} className="float-left mr-3 mb-1" data-testid="lil-stranger-link">
+      <a href={`${getConfig().LMS_BASE_URL}/lil-stranger/`} className="float-left mr-3 mb-1 inline-link" data-testid="lil-stranger-link">
         <img
           src={lilStranger}
           alt={intl.formatMessage({

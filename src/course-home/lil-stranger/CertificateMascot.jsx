@@ -16,7 +16,7 @@ const CertificateMascot = ({ widthPercent, centered }) => {
   return (
     <a
       href={`${getConfig().LMS_BASE_URL}/lil-stranger/`}
-      className="d-block mb-2"
+      className="d-block mb-2 inline-link"
       data-testid="certificate-mascot-link"
     >
       <img
