@@ -7,7 +7,7 @@ import lilStranger from './assets/lil-stranger.png';
 export const TimingFeedbackNudgeText = () => (
   <FormattedMessage
     id="learning.timingFeedback.nudge"
-    defaultMessage="BTW! We see you submitted some Timing Feedback; thanks for that! But it looks like we're missing a couple of entries for you. Could you submit these so we can use your data?"
+    defaultMessage="BTW! We see you submitted some Timing Feedback; thanks for that! But it looks like we're missing a couple of entries for you. Could you submit these so we have the best data for how long the class takes?"
     description="Shown next to a ready certificate when a learner submitted some, but not all, Timing Feedback"
   />
 );
