@@ -15,7 +15,7 @@ export const TimingFeedbackNudgeText = () => (
 export const TimingFeedbackMidClassText = () => (
   <FormattedMessage
     id="learning.timingFeedback.midClassNudge"
-    defaultMessage="Psst! It looks like you skipped some Timing Feedback on your way through the class. Please go back and submit these so we can use your data!"
+    defaultMessage="Psst! It looks like you missed some Timing Feedback on your way through the class. Please go back and submit these so we have the best data for how long the class takes!"
     description="Shown on the course home page when a learner has completed later material but skipped earlier Timing Feedback"
   />
 );
