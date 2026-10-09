@@ -12,6 +12,14 @@ export const TimingFeedbackNudgeText = () => (
   />
 );
 
+export const TimingFeedbackMidClassText = () => (
+  <FormattedMessage
+    id="learning.timingFeedback.midClassNudge"
+    defaultMessage="Psst! It looks like you skipped some Timing Feedback on your way through the class. Please go back and submit these so we can use your data!"
+    description="Shown on the course home page when a learner has completed later material but skipped earlier Timing Feedback"
+  />
+);
+
 const TimingFeedbackLinks = ({ missing }) => (
   <>
     <FormattedMessage
@@ -38,7 +46,7 @@ TimingFeedbackLinks.propTypes = {
 };
 
 // Mascot floated left so the text wraps around it when the column is narrow.
-export const TimingFeedbackNudge = ({ missing, mascotWidth }) => {
+export const TimingFeedbackNudge = ({ missing, mascotWidth, midClass }) => {
   const intl = useIntl();
   return (
     <div className="clearfix">
@@ -53,7 +61,7 @@ export const TimingFeedbackNudge = ({ missing, mascotWidth }) => {
           style={{ width: mascotWidth, height: 'auto', display: 'block' }}
         />
       </a>
-      <TimingFeedbackNudgeText />
+      {midClass ? <TimingFeedbackMidClassText /> : <TimingFeedbackNudgeText />}
       {' '}
       <TimingFeedbackLinks missing={missing} />
     </div>
@@ -63,10 +71,12 @@ export const TimingFeedbackNudge = ({ missing, mascotWidth }) => {
 TimingFeedbackNudge.propTypes = {
   ...TimingFeedbackLinks.propTypes,
   mascotWidth: PropTypes.number,
+  midClass: PropTypes.bool,
 };
 
 TimingFeedbackNudge.defaultProps = {
   mascotWidth: 72,
+  midClass: false,
 };
 
 export default TimingFeedbackLinks;

@@ -18,6 +18,7 @@ import messages from './messages';
 import ShiftDatesAlert from '../suggested-schedule-messaging/ShiftDatesAlert';
 import UpgradeToShiftDatesAlert from '../suggested-schedule-messaging/UpgradeToShiftDatesAlert';
 import useCertificateAvailableAlert from './alerts/certificate-status-alert';
+import useTimingFeedbackAlert from './alerts/timing-feedback-alert';
 import useCourseEndAlert from './alerts/course-end-alert';
 import useCourseStartAlert from '../../alerts/course-start-alert';
 import usePrivateCourseAlert from './alerts/private-course-alert';
@@ -68,6 +69,7 @@ const OutlineTab = () => {
 
   // Below the course title alerts (appearing in the order listed here)
   const courseStartAlert = useCourseStartAlert(courseId);
+  const timingFeedbackAlert = useTimingFeedbackAlert(courseId);
   const courseEndAlert = useCourseEndAlert(courseId);
   const certificateAvailableAlert = useCertificateAvailableAlert(courseId);
   const privateCourseAlert = usePrivateCourseAlert(courseId);
@@ -139,6 +141,7 @@ const OutlineTab = () => {
             className="mb-3"
             customAlerts={{
               ...certificateAvailableAlert,
+              ...timingFeedbackAlert,
               ...courseEndAlert,
               ...courseStartAlert,
               ...scheduledContentAlert,

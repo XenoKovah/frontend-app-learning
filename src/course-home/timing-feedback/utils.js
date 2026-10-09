@@ -48,3 +48,33 @@ export default function getMissingTimingFeedback(sectionScores) {
     url: subsection.url,
   }));
 }
+
+// A "Mark as complete" (done) block scores 1 when checked and 0 once unchecked; the progress API
+// gives each score its block's jump_to URL, which carries the block type.
+const DONE_BLOCK_URL = /type@done\+block@/;
+
+export const hasCheckedDone = (subsection) => (subsection.problemScores || []).some(
+  score => DONE_BLOCK_URL.test(score.url || '') && score.earned > 0,
+);
+
+/**
+ * Mid-class variant (OST2 beta): the learner is still working through the course, so only list the
+ * unsubmitted Timing Feedback entries at or before the furthest subsection in which they checked a
+ * "Mark as complete". Unlike the certificate nudge this fires even when no entry has been submitted.
+ */
+export function getMissingTimingFeedbackBeforeLastDone(sectionScores) {
+  const all = (sectionScores || []).flatMap(chapter => chapter.subsections || []);
+  let lastDone = -1;
+  all.forEach((subsection, index) => {
+    if (hasCheckedDone(subsection)) { lastDone = index; }
+  });
+  const timing = all.filter(isTimingFeedback);
+  return all
+    .slice(0, lastDone + 1)
+    .filter(subsection => isTimingFeedback(subsection) && !isSubmitted(subsection))
+    .map(subsection => ({
+      label: labelFor(subsection, timing.indexOf(subsection) + 1),
+      title: subsection.displayName,
+      url: subsection.url,
+    }));
+}
